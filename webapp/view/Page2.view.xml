@@ -1,0 +1,39 @@
+<mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="zapp.controller.Page2"
+	xmlns:html="http://www.w3.org/1999/xhtml">
+	<App>
+		<pages>
+			<Page title="Page2">
+				<content>
+					<Bar>
+						<contentLeft>
+							<SearchField search="handleSearch"/>
+						</contentLeft>
+					</Bar>
+
+					<List
+						id = "ProductList"
+						headerText ="Products"
+						
+						items ="{
+							path: '/ProductCollection',
+							sorter: { path: 'Name'}
+							}"
+						growing="true"
+						growingThreshold="10"
+						growingScrollToLoad="false">
+						<items>
+							<StandardListItem
+								title="{Name}"
+								description="{ProductId}"
+								icon="{ProductPicUrl}"
+								iconDensityAware="false"
+								iconInset="false" />
+						</items>
+					</List>
+						<Button xmlns="sap.m" text="Page 3" id="btn3" press="onPressPage3"/>
+						<Button xmlns="sap.m" text="Back to Back" id="btn4" press="onPressBack"/>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
