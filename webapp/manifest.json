@@ -104,6 +104,11 @@
 					"viewType": "XML",
 					"transition": "slide",
 					"viewName": "Page3"
+				},
+				"Detail": {
+					"viewType": "XML",
+					"transition": "slide",
+					"viewName": "Detail"
 				}
 			},
 			"routes": [{
@@ -126,10 +131,10 @@
 				"target": "Page3"
 			}, {
 				"name": "Detail",
-				"pattern": "detail/{productId}",
-				"titleTarget": "",
+				"pattern": "detail/{ProductId}",
+				"titleTarget": "Detail",
 				"greedy": false,
-				"target": ["Page3"]
+				"target": "Page3"
 			}]
 		}
 	}

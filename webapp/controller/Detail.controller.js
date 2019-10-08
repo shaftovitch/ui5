@@ -6,7 +6,7 @@ sap.ui.define([
 ], function (jQuery,Controller,MessageToast,JSONModel) {
 	"use strict";
 
-	return Controller.extend("zapp.controller.Page3", {
+	return Controller.extend("zapp.controller.Detail", {
 
 		/**
 		 * Called when a controller is instantiated and its View controls (if available) are already created.
@@ -14,30 +14,31 @@ sap.ui.define([
 		 * @memberOf zapp.view.Page2
 		 */
 		onInit: function (evt) {
-			//var oModel = new JSONModel("model/products.json");
-			//this.getView().setModel(oModel);
-			// var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			// oRouter.getRoute("Detail").attachMatched(this._onRouteMatched, this);
+			var oModel = new JSONModel("model/products.json");
+			this.getView().setModel(oModel);
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			oRouter.getRoute("Detail").attachMatched(this._onRouteMatched, this);
 			
 			
 		},
-		// _onRouteMatched : function (oEvent) {
-		// 	var oArgs, oView;
-		// 	oArgs = oEvent.getParameter("arguments");
-		// 	oView = this.getView();
-		// 	oView.bindElement({
-  //  			path : "/ProductsCollection(" + oArgs.ProductId + ")",
-  //  			events : {
-  //  				dataRequested: function () {
-  //      			oView.setBusy(true);
-  //  				},
+		_onRouteMatched : function (oEvent) {
+			var oArgs, oView;
+			oArgs = oEvent.getParameter("arguments");
+			oView = this.getView();
+			oView.bindElement({
+    			path : "/ProductCollection/" + oArgs.ProductId + "/",
+    			events : {
+    			dataRequested: function () {
+        			oView.setBusy(true);
+    			 	},
     	
-  //  				dataReceived: function () {
-  //      			oView.setBusy(false);
-  //  				}	
-  //  			}
-		// 	});
-		//},
+    			 	dataReceived: function () {
+       			oView.setBusy(false);
+    			 	}	
+    			 }
+			});
+		MessageToast.show("/ProductCollection/" + oArgs.ProductId, {duration: 10000});	
+		},
 		
 		onPressPage2: function (evt) {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
@@ -50,25 +51,12 @@ sap.ui.define([
 			oRouter.navTo("Home");
 		},
 		
-		
-		
-		
 
-		
-		
-		
-		getSplitAppObj : function() {
-			var result = this.byId("SplitAppDemo");
-			if (!result) {
-				MessageToast.show("erreur fct getSplitAppObj !!!", {duration: 5000});
-			}
-			return result;
-		},
-		
-		onPressBack: function (evt) {
+		handleNavButtonPress : function(evt) {
 			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			oRouter.navTo("Page2");
+			oRouter.navTo("Page3");
 		}
+		
 		
 		
 

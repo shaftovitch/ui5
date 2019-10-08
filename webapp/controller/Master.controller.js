@@ -19,34 +19,39 @@ sap.ui.define([
 		},
 		
 		onListItemPress : function (oEvent) {
-			//MessageToast.show("onListItemPress in / Pag3");
-			//var oList = oEvent.getParameters(),
-			//	bSelected = oEvent.getParameter("selected");
-
-			// skip navigation when deselecting an item in multi selection mode
+			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
+			var selectedProductId = oEvent.getSource().getBindingContext().getProperty("ProductId");
+				oRouter.navTo("Detail", {
+				ProductId: selectedProductId
+			});
 			
-				// get the list item, either from the listItem parameter or from the event's source itself (will depend on the device-dependent mode).
-			//this._showDetail(oEvent.getParameter("listItem"));
-			//oEvent.getParameters("Id").getValue();
-			var oItem = oEvent.getSource();
-			var oContext = oItem.getProperty();
 			
-			//alert(sMessage);
-			
-},
+		},
 			select : function (oEvent) {
 					var sMessage = oEvent.getSource().getSelectedItem();
 					MessageToast.show( sMessage );
+					//console.log()
 		},
 		_showDetail : function (oItem) {
-			//var bReplace = !Device.system.phone;
-			// set the layout property of FCL control to show two columns
-			//this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");
-			var oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			
-			oRouter.navTo("Page3", {
-				objectId : oItem.getBindingContext().getProperty("ProductId")
+			this.getRouter().navTo("detail", {
+    		from: "Master",
+    		entity: oItem.getBindingContext().getPath().substr(1)
 			});
+		},
+		
+		handleSearch : function (evt) {
+			// create model filter
+			var filters = [];
+			var query = evt.getParameter("query");
+			if (query && query.length > 0) {
+				var filter = new sap.ui.model.Filter("Name", sap.ui.model.FilterOperator.Contains, query);
+				filters.push(filter);
+			}
+
+			// update list binding
+			var list = this.getView().byId("ProductList");
+			var binding = list.getBinding("items");
+			binding.filter(filters);
 		}
 		
 		
